@@ -33,8 +33,8 @@ const getMovies = (req, res) => {
     .then(([movies]) => {
       res.json(movies); // use res.json instead of console.log
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((e) => {
+      console.log(e);
       res.sendStatus(500);
     });
 };
@@ -51,8 +51,8 @@ const getMovieById = (req, res) => {
         res.sendStatus(404);
       }
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((e) => {
+      console.log(e);
       res.sendStatus(500);
     });
 };
@@ -69,13 +69,24 @@ const getMovieById = (req, res) => {
 const postMovie = (req, res) => {
   const { title, director, year, color, duration } = req.body;
 
+
   database
     .query(
       "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
       [title, director, year, color, duration]
     )
     .then(([result]) => {
-      res.status(201).send({ id: result.insertId });
+
+      const newMovie = {
+            id: result.insertId,
+            title,
+            director,
+            year,
+            color,
+            duration }
+
+
+      res.status(201).send(newMovie);
     })
     .catch((err) => {
       console.error(err);

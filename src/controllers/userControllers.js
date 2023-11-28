@@ -39,7 +39,16 @@ const postUser = (req, res) => {
       [firstname, lastname, email, city, language]
     )
     .then(([result]) => {
-      res.status(201).send({ id: result.insertId });
+
+      const newUser = {
+        id: result.insertId,
+        firstname,
+        lastname,
+        email,
+        city,
+        language }
+
+      res.status(201).send(newUser);
     })
     .catch((err) => {
       console.error(err);
