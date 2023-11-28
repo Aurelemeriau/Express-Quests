@@ -29,4 +29,7 @@ const validateUser = require("./middlewares/validateUser");
 app.post("/api/users", validateUser, userControllers.postUser);
 app.put("/api/users/:id", validateUser, userControllers.updateUser);
 
+app.delete("/api/movies/:id", movieControllers.deleteMovie);
+app.delete("/api/users/:id", userControllers.deleteUser);
+
 module.exports = app;
