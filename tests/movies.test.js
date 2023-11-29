@@ -176,3 +176,44 @@ describe("PUT /api/movies/:id", () => {
     expect(response.status).toEqual(404);
   });
 });
+
+
+describe("DELETE /api/movies/:id", () => {
+  it("should delete movie", async () => {
+    const newMovie = {
+      title: "Le roi lion",
+      director: "Disney",
+      year: "1997",
+      color: "0",
+      duration: 120,
+    };
+
+    const [resultat] = await database.query(
+      "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
+      [newMovie.title, newMovie.director, newMovie.year, newMovie.color, newMovie.duration]
+    );
+
+    const id = resultat.insertId;
+
+    const response = await request(app)
+    .delete(`/api/movies/${id}`)
+
+    expect(response.status).toEqual(204);
+
+})
+
+it("should return an error", async () => {
+  const newMovie = {
+      title: "Toy Story",
+      director: "Disney",
+      year: "2000",
+      color: "1",
+      duration: 120,
+  };
+
+  const response = await request(app).delete("/api/movies/5000").send(newMovie);  
+
+expect(response.status).toEqual(404);
+
+})
+})
