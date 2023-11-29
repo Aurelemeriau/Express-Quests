@@ -28,8 +28,24 @@ const movies = [
 const database = require("../../database");
 
 const getMovies = (req, res) => {
+  let sql = "SELECT * FROM movies";
+  const sqlValues = [];
+  
+  if (req.query.color != null) {
+    sql += " WHERE color = ?";
+    sqlValues.push(req.query.color);
+  
+    if (req.query.max_duration != null) {
+      sql += " AND duration <= ?";
+      sqlValues.push(req.query.max_duration);
+    }
+  } else if (req.query.max_duration != null) {
+    sql += " WHERE duration <= ?";
+    sqlValues.push(req.query.max_duration);
+  }
+
   database
-    .query("select * from movies")
+    .query(sql, sqlValues)
     .then(([movies]) => {
       res.json(movies); // use res.json instead of console.log
     })
@@ -57,14 +73,6 @@ const getMovieById = (req, res) => {
     });
 };
 
-//   const movie = movies.find((movie) => movie.id === id);
-
-//   if (movie != null) {
-//     res.json(movie);
-//   } else {
-//     res.status(404).send("Not Found");
-//   }
-// };
 
 const postMovie = (req, res) => {
   const { title, director, year, color, duration } = req.body;

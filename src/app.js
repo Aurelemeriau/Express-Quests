@@ -32,4 +32,6 @@ app.put("/api/users/:id", validateUser, userControllers.updateUser);
 app.delete("/api/movies/:id", movieControllers.deleteMovie);
 app.delete("/api/users/:id", userControllers.deleteUser);
 
+// app.get("/api/users/?language", userControllers.getLanguage);
+
 module.exports = app;

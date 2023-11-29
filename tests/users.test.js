@@ -203,7 +203,7 @@ describe("DELETE /api/users/:id", () => {
 
 })
 
-it("should delete user", async () => {
+it("should return an error", async () => {
   const newUser = {
     firstname: "Tony",
     lastname: "Emeriau",
